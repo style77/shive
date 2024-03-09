@@ -1,5 +1,4 @@
-from api.users.schemas import RegisterRequest
-from api.users.models import User
+from api.users.models import UserCreate
 from argon2 import PasswordHasher
 
 
@@ -12,5 +11,5 @@ class UserService:
     def verify_password(self, password: str, hashed_password: str):
         return self.hasher.verify(hashed_password, password)
 
-    async def create_user(self, data: RegisterRequest):
+    async def create_user(self, data: UserCreate):
         hashed_password = self.hash_password(data.password)
