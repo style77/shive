@@ -13,7 +13,7 @@ router = APIRouter(prefix="/auth", tags=["auth"])
 @router.post("/token")
 async def login(response: Response, form_data: OAuth2PasswordRequestForm = Depends()):
     user, authenticated = await service.authenticate_user(
-        form_data.email, form_data.password
+        form_data.username, form_data.password
     )
     if not authenticated:
         raise HTTPException(
