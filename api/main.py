@@ -1,6 +1,25 @@
+from contextlib import asynccontextmanager
+
 from fastapi import FastAPI
-from api.users.router import router as users_router
+from api.settings import settings
+from api.router import router
+from api.core.logs import logger
 
-app = FastAPI()
 
-app.include_router(users_router, prefix="/api/v1/users", tags=["users"])
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    logger.info("startup: triggered")
+
+    yield
+
+    logger.info("shutdown: triggered")
+
+
+app = FastAPI(
+    title=settings.APP_NAME,
+    version="0.1.0",
+    description=f"{settings.APP_NAME} API",
+    lifespan=lifespan,
+)
+
+app.include_router(router=router)
