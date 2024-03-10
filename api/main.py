@@ -1,9 +1,14 @@
 from contextlib import asynccontextmanager
 
-from fastapi import FastAPI
+import graphene
+from starlette_graphene3 import GraphQLApp, make_graphiql_handler
+
+from fastapi import FastAPI, APIRouter
 from api.settings import settings
-from api.router import router
 from api.core.logs import logger
+
+from api.users.router import router as users_router
+from api.health.router import router as health_router
 
 
 @asynccontextmanager
@@ -21,5 +26,13 @@ app = FastAPI(
     description=f"{settings.APP_NAME} API",
     lifespan=lifespan,
 )
+# schema = graphene.Schema()
 
-app.include_router(router=router)
+router = APIRouter(prefix="/api/v1")
+
+router.include_router(users_router)
+router.include_router(health_router)
+
+app.include_router(router)
+
+# app.mount("/graphql", GraphQLApp(schema, on_get=make_graphiql_handler()))
