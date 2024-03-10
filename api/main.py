@@ -9,6 +9,7 @@ from api.core.logs import logger
 
 from api.users.router import router as users_router
 from api.health.router import router as health_router
+from api.schema import Query, Mutation
 
 
 @asynccontextmanager
@@ -26,8 +27,6 @@ app = FastAPI(
     description=f"{settings.APP_NAME} API",
     lifespan=lifespan,
 )
-# schema = graphene.Schema()
-
 router = APIRouter(prefix="/api/v1")
 
 router.include_router(users_router)
@@ -35,4 +34,5 @@ router.include_router(health_router)
 
 app.include_router(router)
 
-# app.mount("/graphql", GraphQLApp(schema, on_get=make_graphiql_handler()))
+schema = graphene.Schema(query=Query, mutation=Mutation)
+app.mount("/graphql", GraphQLApp(schema, on_get=make_graphiql_handler()))
