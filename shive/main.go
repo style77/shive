@@ -25,12 +25,12 @@ func main() {
 	// Create application with options
 	err := wails.Run(&options.App{
 		Title:             "shive",
-		Width:             768,
-		Height:            1024,
-		MinWidth:          768,
-		MinHeight:         1024,
-		MaxWidth:          768,
-		MaxHeight:         1024,
+		Width:             344,
+		Height:            660,
+		MinWidth:          344,
+		MinHeight:         660,
+		MaxWidth:          344,
+		MaxHeight:         660,
 		DisableResize:     true,
 		Fullscreen:        false,
 		Frameless:         false,
