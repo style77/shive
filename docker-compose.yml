@@ -25,8 +25,3 @@ services:
       - database
     volumes:
       - .:/code
-    healthcheck:
-      test: [ "CMD", "curl", "-f", "http://localhost:8000/api/v1/health/" ]
-      interval: 5s
-      timeout: 5s
-      retries: 5
