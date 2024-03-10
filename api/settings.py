@@ -12,7 +12,7 @@ class Settings(BaseSettings):
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 5  # 5 minutes
     REFRESH_TOKEN_EXPIRE_DAYS: int = 7  # 7 days
 
-    DATABASE_URL: str = "postgresql://shive:shive@localhost:5432/shive"
+    DATABASE_URL: str = "postgresql+asyncpg://shive:shive@localhost:5432/shive"
 
     class Config:
         env_file = ".env"
