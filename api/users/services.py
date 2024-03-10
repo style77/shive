@@ -1,7 +1,7 @@
 from api.users.models import UserCreate, User
 from argon2 import PasswordHasher
 
-from sqlalchemy.ext.asyncio import AsyncSession
+from api.database import async_session
 
 
 class UserService:
@@ -13,13 +13,17 @@ class UserService:
     def verify_password(self, password: str, hashed_password: str):
         return self.hasher.verify(hashed_password, password)
 
-    async def create_user(self, data: UserCreate, session: AsyncSession):
+    async def create_user(self, data: UserCreate):
         hashed_password = self.hash_password(data.password)
 
         user = User(**data.model_dump(), hashed_password=hashed_password)
 
-        session.add(user)
-        await session.commit()
-        await session.refresh(user)
+        async with async_session() as session:
+            session.add(user)
+            await session.commit()
+            await session.refresh(user)
 
         return user
+
+
+service = UserService()
