@@ -4,7 +4,7 @@ from api.common.models import GeneralModel
 
 
 class UserBase(SQLModel):
-    username: str = Field(unique=True)
+    username: str = Field(index=True, unique=True)
     email: str = Field(index=True, unique=True)
     full_name: str
 
