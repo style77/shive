@@ -1,3 +1,5 @@
+from typing import Optional, Union
+from sqlmodel import select
 from api.users.models import UserCreate, User
 from argon2 import PasswordHasher
 
@@ -13,6 +15,13 @@ class UserService:
     def verify_password(self, password: str, hashed_password: str):
         return self.hasher.verify(hashed_password, password)
 
+    async def get_user(self, email: str) -> Optional[User]:
+        async with async_session() as session:
+            user = await session.execute(select(User).where(User.email == email))
+            user = user.scalars().first()
+
+            return user
+
     async def create_user(self, data: UserCreate):
         hashed_password = self.hash_password(data.password)
 
@@ -24,6 +33,14 @@ class UserService:
             await session.refresh(user)
 
         return user
+
+    async def authenticate_user(
+        self, email: str, password: str
+    ) -> Union[Optional[User], bool]:
+        user = await self.get_user(email, password)
+        if user and self.verify_password(password, user.password):
+            return user, True
+        return None, False
 
 
 service = UserService()
