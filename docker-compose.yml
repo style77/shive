@@ -9,8 +9,6 @@ services:
       POSTGRES_PASSWORD: shive
     ports:
       - "5432:5432"
-    volumes:
-      - ./data:/var/lib/postgresql/data
     healthcheck:
       test: [ "CMD-SHELL", "pg_isready -U shive" ]
       interval: 5s
@@ -21,12 +19,12 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    environment:
-      DATABASE_URL: postgres://shive:shive@database:5432/shive
     ports:
       - "80:8000"
     depends_on:
       - database
+    volumes:
+      - .:/code
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://localhost:8000/health" ]
       interval: 5s
