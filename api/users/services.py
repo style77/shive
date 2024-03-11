@@ -17,7 +17,7 @@ class UserService:
 
     async def get_user(self, email: str) -> Optional[User]:
         async with async_session() as session:
-            user = await session.execute(select(User).where(User.email == email))
+            user = await session.exec(select(User).where(User.email == email))
             user = user.scalars().first()
 
             return user

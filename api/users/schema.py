@@ -56,11 +56,11 @@ class CreateUser(graphene.Mutation):
         """
         async with async_session() as session:
             if key == "username":
-                result = await session.execute(
+                result = await session.exec(
                     select(User).where(User.username == value)
                 )
             elif key == "email":
-                result = await session.execute(
+                result = await session.exec(
                     select(User).where(User.email == value)
                 )
             return result.scalars().first() is not None
@@ -89,7 +89,7 @@ class CreateUser(graphene.Mutation):
             existing_usernames_query = select(User.username).where(
                 User.username.in_([f"{username}_{suffix}" for suffix in suffixes])
             )
-            result = await session.execute(existing_usernames_query)
+            result = await session.exec(existing_usernames_query)
             existing_usernames = {row[0] for row in result.all()}
 
         filtered_suffixes = [
