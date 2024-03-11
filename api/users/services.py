@@ -25,7 +25,10 @@ class UserService:
     async def create_user(self, data: UserCreate):
         hashed_password = self.hash_password(data.password)
 
-        user = User(**data.model_dump(), hashed_password=hashed_password)
+        data = data
+        data.password = hashed_password
+
+        user = User(**data.model_dump())
 
         async with async_session() as session:
             session.add(user)
@@ -37,7 +40,7 @@ class UserService:
     async def authenticate_user(
         self, email: str, password: str
     ) -> Union[Optional[User], bool]:
-        user = await self.get_user(email, password)
+        user = await self.get_user(email)
         if user and self.verify_password(password, user.password):
             return user, True
         return None, False
