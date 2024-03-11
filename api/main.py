@@ -50,4 +50,6 @@ router.include_router(auth_router)
 app.include_router(router)
 
 schema = graphene.Schema(query=Query, mutation=Mutation)
-app.mount("/graphql", GraphQLApp(schema, on_get=make_graphiql_handler()))
+graphql_app = GraphQLApp(schema, on_get=make_graphiql_handler())
+
+app.mount("/graphql", graphql_app)
