@@ -61,7 +61,9 @@ class CreateUser(graphene.Mutation):
             elif key == "email":
                 query = select(User).where(User.email == value)
             else:
-                raise NotImplementedError("Invalid key in `_exists` method. Try 'username' or 'email'.")
+                raise NotImplementedError(
+                    "Invalid key in `_exists` method. Try 'username' or 'email'."
+                )
 
             result = await session.exec(query)
             return result.first() is not None
