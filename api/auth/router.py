@@ -4,7 +4,8 @@ from fastapi.security import OAuth2PasswordRequestForm
 
 from api.auth.authorization import OAuth2PasswordBearerWithCookie
 from api.auth.dependencies import token_validator
-from api.users.services import service
+from api.users.services import service as user_service
+from api.auth.services import service
 from api.settings import settings
 
 router = APIRouter(prefix="/auth", tags=["auth"])
@@ -12,7 +13,7 @@ router = APIRouter(prefix="/auth", tags=["auth"])
 
 @router.post("/token")
 async def login(response: Response, form_data: OAuth2PasswordRequestForm = Depends()):
-    user, authenticated = await service.authenticate_user(
+    user, authenticated = await user_service.authenticate_user(
         form_data.username, form_data.password
     )
     if not authenticated:

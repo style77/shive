@@ -16,9 +16,11 @@ async def token_validator(request: Request):
             user = await user_service.get_user(payload["sub"])
             if user:
                 request.state.user = user
-            return payload
+                return payload
+            raise credentials_exception
         except HTTPException as e:
             if e.detail == "Token expired" and refresh_token:
                 raise expired_exception
+            raise e
     else:
         raise credentials_exception

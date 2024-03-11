@@ -42,4 +42,5 @@ class RefreshTokenMiddleware(BaseHTTPMiddleware):
                         return new_response
                 except HTTPException:
                     pass
+            return response
         return response

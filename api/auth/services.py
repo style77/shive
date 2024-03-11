@@ -10,12 +10,12 @@ class AuthService:
         to_encode = data.copy()
         expire = datetime.utcnow() + expires_delta
         to_encode.update({"exp": expire})
-        encoded_jwt = JWTError.encode(
+        encoded_jwt = jwt.encode(
             to_encode, settings.SECRET_KEY, algorithm=settings.ALGORITHM
         )
         return encoded_jwt
 
-    def verify_token(token: str, credentials_exception: HTTPException, expired_exception: HTTPException) -> dict:
+    def verify_token(self, token: str, credentials_exception: HTTPException, expired_exception: HTTPException) -> dict:
         try:
             payload = jwt.decode(token, settings.SECRET_KEY, algorithms=[settings.ALGORITHM])
             return payload
