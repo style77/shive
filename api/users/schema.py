@@ -55,15 +55,16 @@ class CreateUser(graphene.Mutation):
         :return: True if the username exists, False otherwise.
         """
         async with async_session() as session:
+            query = None
             if key == "username":
-                result = await session.exec(
-                    select(User).where(User.username == value)
-                )
+                query = select(User).where(User.username == value)
             elif key == "email":
-                result = await session.exec(
-                    select(User).where(User.email == value)
-                )
-            return result.scalars().first() is not None
+                query = select(User).where(User.email == value)
+            else:
+                raise NotImplementedError("Invalid key in `_exists` method. Try 'username' or 'email'.")
+
+            result = await session.exec(query)
+            return result.first() is not None
 
     @staticmethod
     async def _get_alternative_usernames(username: str, *, count: int = 5) -> List[str]:
