@@ -1,6 +1,6 @@
 import random
 import string
-from typing import List
+from typing import Callable, List
 import graphene
 from sqlmodel import select
 
@@ -47,7 +47,7 @@ class CreateUser(graphene.Mutation):
     Output = CreateUserPayload
 
     @staticmethod
-    async def _username_exists(username: str) -> bool:
+    async def _exists(key: string, value: string) -> bool:
         """
         Check if a username exists in the database.
 
@@ -55,9 +55,14 @@ class CreateUser(graphene.Mutation):
         :return: True if the username exists, False otherwise.
         """
         async with async_session() as session:
-            result = await session.execute(
-                select(User).where(User.username == username)
-            )
+            if key == "username":
+                result = await session.execute(
+                    select(User).where(User.username == value)
+                )
+            elif key == "email":
+                result = await session.execute(
+                    select(User).where(User.email == value)
+                )
             return result.scalars().first() is not None
 
     @staticmethod
@@ -118,14 +123,14 @@ class CreateUser(graphene.Mutation):
         :param password: The password of the new user.
         :return: The result of the mutation. Either a success or a failure.
         """
-        if await CreateUser._username_exists(username):
+        if await CreateUser._exists("username", username):
             return CreateUserFailUsernameExists(
                 error_message="Username already exists.",
                 suggested_alternatives=await CreateUser._get_alternative_usernames(
                     username
                 ),
             )
-        if select(User).where(User.email == email).first():
+        if await CreateUser._exists("email", email):
             return CreateUserFailOther(error_message="Email already exists.")
 
         try:
