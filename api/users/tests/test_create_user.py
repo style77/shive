@@ -31,7 +31,6 @@ async def test_create_user(client: AsyncClient):
 
     assert response.status_code == 200
     data = response.json()
-    print(data)
 
     assert "errors" not in data
     assert "data" in data
