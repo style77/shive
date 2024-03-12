@@ -1,11 +1,4 @@
-from fastapi.testclient import TestClient
-from api.main import app
-
-
-client = TestClient(app)
-
-
-def test_create_user():
+def test_create_user(client):
     mutation = """
         mutation createUser {
             createUser(email: "test@test.com", username: "test", fullName: "Test Test", password: "test") {
