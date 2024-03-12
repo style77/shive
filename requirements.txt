@@ -13,6 +13,7 @@ click==8.1.7
 colorama==0.4.6
 cryptography==42.0.5
 ecdsa==0.18.0
+exceptiongroup==1.2.0
 fastapi==0.110.0
 flake8==7.0.0
 graphene==3.3
@@ -43,7 +44,6 @@ pydantic-settings==2.2.1
 pydantic_core==2.16.3
 pyflakes==3.2.0
 pytest==8.1.1
-pytest-asyncio==0.21.0
 python-dotenv==1.0.1
 python-jose==3.3.0
 python-multipart==0.0.9
@@ -55,6 +55,7 @@ SQLAlchemy==2.0.28
 sqlmodel==0.0.16
 starlette==0.36.3
 starlette-graphene3==0.6.0
+tomli==2.0.1
 typing_extensions==4.10.0
 uvicorn==0.27.1
 watchfiles==0.21.0
