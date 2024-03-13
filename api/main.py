@@ -9,7 +9,6 @@ from fastapi import FastAPI, APIRouter
 from api.settings import settings
 from api.core.logs import logger
 
-from api.users.router import router as users_router
 from api.health.router import router as health_router
 from api.auth.router import router as auth_router
 from api.schema import Query, Mutation
@@ -43,7 +42,6 @@ app.add_middleware(RefreshTokenMiddleware)
 
 router = APIRouter(prefix="/api/v1")
 
-router.include_router(users_router)
 router.include_router(health_router)
 router.include_router(auth_router)
 
