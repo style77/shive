@@ -1,6 +1,6 @@
 import random
 import string
-from typing import Callable, List
+from typing import List
 import graphene
 from sqlmodel import select
 
