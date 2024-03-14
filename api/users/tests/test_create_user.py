@@ -62,9 +62,9 @@ async def test_create_user_fail_username_exists(client: AsyncClient):
             }
         }
         """
-    
+
     response = await client.post("/graphql/", json={"query": mutation})
-    
+
     assert response.status_code == 200
     data = response.json()
 
@@ -98,7 +98,7 @@ async def test_create_user_fail_email_exists(client: AsyncClient):
             }
         }
         """
-    
+
     response = await client.post("/graphql/", json={"query": mutation})
 
     assert response.status_code == 200
