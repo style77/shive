@@ -16,7 +16,7 @@ on:
 
 jobs:
   test:
-    name: Test API
+    name: Test
     runs-on: ubuntu-latest
 
     services:
@@ -45,3 +45,27 @@ jobs:
           DATABASE_URL: postgres://shive:shive@localhost:5432/test_shive
           TEST_DATABASE_URL: postgres://shive:shive@localhost:5432/test_shive
         run: pytest .
+
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    needs: test  # We choose to focus on functionality first, so we only lint if the tests pass successfully
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v3
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Lint with flake8
+        run: flake8 api/
+
+      - name: Lint with black
+        run: black --check api/
+
+      - name: Lint with isort
+        run: isort --check-only api/
