@@ -2,6 +2,7 @@
 import {
   useMotionValue,
 } from "framer-motion";
+import { MouseEvent } from "react";
 
 export const AnimatedTooltip = ({
   items,
@@ -11,11 +12,12 @@ export const AnimatedTooltip = ({
     image: string;
   }[];
 }) => {
-  const x = useMotionValue(0); // going to set this value on mouse move
-  // rotate the tooltip
-  const handleMouseMove = (event: any) => {
-    const halfWidth = event.target.offsetWidth / 2;
-    x.set(event.nativeEvent.offsetX - halfWidth); // set the x value, which is then used in transform and rotate
+  const x = useMotionValue(0);
+  const handleMouseMove = (event: MouseEvent<HTMLImageElement>) => {
+    const target = event.target as HTMLImageElement;
+    const halfWidth = target.offsetWidth / 2;
+
+    x.set(event.nativeEvent.offsetX - halfWidth);
   };
 
   return (
