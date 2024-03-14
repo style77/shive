@@ -14,15 +14,14 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { PasswordInput } from "@/components/ui/password-input"
-import { useState } from "react"
 import { Separator } from "@/components/ui/separator"
 
 const formSchema = z.object({
   email: z.string().min(5, {
     message: "Email address must be at least 5 characters.",
   }),
-  fullName: z.string().min(4, {message: "Name must be at least 4 characters"}),
-  username: z.string().min(3, {message: "Username must be at least 3 characters"}),
+  fullName: z.string().min(4, { message: "Name must be at least 4 characters" }),
+  username: z.string().min(3, { message: "Username must be at least 3 characters" }),
   password: z.string().min(2, {
     message: "Password must be at least 8 characters."
   }),
@@ -55,7 +54,7 @@ function RegisterForm() {
       </div>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-        <FormField
+          <FormField
             control={form.control}
             name="fullName"
             render={({ field }) => (
@@ -91,7 +90,7 @@ function RegisterForm() {
               </FormItem>
             )}
           />
-          <Separator className="w-full"/>
+          <Separator className="w-full" />
           <FormField
             control={form.control}
             name="password"
