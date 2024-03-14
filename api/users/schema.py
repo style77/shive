@@ -72,7 +72,8 @@ class CreateUser(graphene.Mutation):
     async def _get_alternative_usernames(username: str, *, count: int = 5) -> List[str]:
         """
         Generate a list of alternative usernames based on the given username.
-        The generated usernames are checked against the database to ensure they are unique.
+        The generated usernames are checked against the database to ensure
+        they are unique.
 
         :param username: The username to generate alternatives for.
         :param count: The number of alternatives to generate.

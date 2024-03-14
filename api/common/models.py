@@ -9,6 +9,8 @@ def generate_id() -> str:
 
 
 class GeneralModel(SQLModel):
-    id: str = Field(default_factory=generate_id, primary_key=True, index=True, nullable=False)
+    id: str = Field(
+        default_factory=generate_id, primary_key=True, index=True, nullable=False
+    )
     created_at: datetime = Field(default_factory=datetime.utcnow)
     updated_at: Optional[datetime] = Field(default=None, nullable=True)

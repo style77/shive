@@ -15,9 +15,16 @@ class AuthService:
         )
         return encoded_jwt
 
-    def verify_token(self, token: str, credentials_exception: HTTPException, expired_exception: HTTPException) -> dict:
+    def verify_token(
+        self,
+        token: str,
+        credentials_exception: HTTPException,
+        expired_exception: HTTPException,
+    ) -> dict:
         try:
-            payload = jwt.decode(token, settings.SECRET_KEY, algorithms=[settings.ALGORITHM])
+            payload = jwt.decode(
+                token, settings.SECRET_KEY, algorithms=[settings.ALGORITHM]
+            )
             return payload
         except ExpiredSignatureError:
             raise expired_exception

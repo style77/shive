@@ -1,4 +1,3 @@
-from typing import Generator
 import pytest
 from jose import jwt
 from httpx import AsyncClient

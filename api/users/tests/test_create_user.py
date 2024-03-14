@@ -25,7 +25,7 @@ async def test_create_user(client: AsyncClient):
                 }
             }
         }
-        """
+        """  # noqa: E501
 
     response = await client.post("/graphql/", json={"query": mutation})
 
@@ -37,6 +37,7 @@ async def test_create_user(client: AsyncClient):
     assert "createUser" in data["data"]
     assert data["data"]["createUser"]["__typename"] == "CreateUserSuccess"
     assert data["data"]["createUser"]["user"]["username"] == "test"
+
 
 @pytest.mark.anyio
 async def test_create_user_fail_username_exists(client: AsyncClient):
@@ -61,7 +62,7 @@ async def test_create_user_fail_username_exists(client: AsyncClient):
                 }
             }
         }
-        """
+        """  # noqa: E501
 
     response = await client.post("/graphql/", json={"query": mutation})
 
@@ -73,6 +74,7 @@ async def test_create_user_fail_username_exists(client: AsyncClient):
     assert "createUser" in data["data"]
     assert data["data"]["createUser"]["__typename"] == "CreateUserFailUsernameExists"
     assert data["data"]["createUser"]["errorMessage"] == "Username already exists."
+
 
 @pytest.mark.anyio
 async def test_create_user_fail_email_exists(client: AsyncClient):
@@ -97,7 +99,7 @@ async def test_create_user_fail_email_exists(client: AsyncClient):
                 }
             }
         }
-        """
+        """  # noqa: E501
 
     response = await client.post("/graphql/", json={"query": mutation})
 

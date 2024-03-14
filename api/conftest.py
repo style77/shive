@@ -22,7 +22,8 @@ async def client() -> AsyncClient:
 
 @pytest.fixture(scope="module")
 def anyio_backend():
-    return 'asyncio'
+    return "asyncio"
+
 
 @pytest.fixture(scope="module", autouse=True)
 async def setup_session():
