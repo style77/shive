@@ -29,8 +29,6 @@ const formSchema = z.object({
 })
 
 function LoginForm() {
-  const [currentPassword, setCurrentPassword] = useState("")
-
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -38,10 +36,7 @@ function LoginForm() {
     },
   })
 
-  // 2. Define a submit handler.
   function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
     console.log(values)
   }
   return (
@@ -67,15 +62,14 @@ function LoginForm() {
           <FormField
             control={form.control}
             name="password"
-            render={({ field }) => (
+            render={({field}) => (
               <FormItem>
                 <FormControl>
                   <PasswordInput
                     id="current_password"
-                    value={currentPassword}
-                    onChange={(e) => setCurrentPassword(e.target.value)}
                     autoComplete="current-password"
                     placeholder="Password"
+                    {...field}
                   />
                 </FormControl>
                 <FormMessage />
