@@ -18,6 +18,17 @@ jobs:
   test:
     name: Test API
     runs-on: ubuntu-latest
+
+    services:
+      postgres:
+          image: postgres:15
+          env:
+              POSTGRES_USER: shive
+              POSTGRES_PASSWORD: shive
+              POSTGRES_DB: test_shive
+          ports: ['5432:5432']
+          options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -29,4 +40,8 @@ jobs:
         run: pip install -r requirements.txt
 
       - name: Run tests
+        env:
+          SECRET_KEY: ${{ secrets.SECRET_KEY }}
+          DATABASE_URL: postgres://shive:shive@localhost:5432/test_shive
+          TEST_DATABASE_URL: postgres://shive:shive@localhost:5432/test_shive
         run: pytest .
