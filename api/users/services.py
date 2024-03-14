@@ -13,12 +13,15 @@ class UserService:
         return self.hasher.hash(password)
 
     def verify_password(self, password: str, hashed_password: str):
-        return self.hasher.verify(hashed_password, password)
+        try:
+            return self.hasher.verify(hashed_password, password)
+        except Exception:
+            return False
 
     async def get_user(self, email: str) -> Optional[User]:
         async with async_session() as session:
             user = await session.exec(select(User).where(User.email == email))
-            user = user.scalars().first()
+            user = user.first()
 
             return user
 
